@@ -14,10 +14,20 @@ namespace BookLibrary
 
         #region Properties
 
+        /// <summary>
+        /// Title of the book.
+        /// </summary>
         public string Title { get; private set; }
 
+        /// <summary>
+        /// Book's author.
+        /// </summary>
         public string Author { get; private set; }
 
+        /// <summary>
+        /// International standard book number.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Value is less than zero.</exception>
         public long ISBN
         {
             get { return _isbn; }
@@ -32,10 +42,20 @@ namespace BookLibrary
             }
         }
 
+        /// <summary>
+        /// House where the book was published.
+        /// </summary>
         public string PublishingHouse { get; private set; }
 
+        /// <summary>
+        /// Year of book publishment.
+        /// </summary>
         public int PublishingYear { get; private set; }
 
+        /// <summary>
+        /// Amount of pages in the book.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Value is less than zero.</exception>
         public int PagesAmount
         {
             get { return _pagesAmount; }
@@ -50,6 +70,10 @@ namespace BookLibrary
             }
         }
 
+        /// <summary>
+        /// Book's price.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">Value is less than zero.</exception>
         public decimal Price
         {
             get { return _price; }
@@ -68,6 +92,16 @@ namespace BookLibrary
 
         #region Ctor
 
+        /// <summary>
+        /// Creates the book with the specified parameters.
+        /// </summary>
+        /// <param name="title">Title of the book.</param>
+        /// <param name="author">Book's author.</param>
+        /// <param name="isbn">International standard book number.</param>
+        /// <param name="publishingHouse">House where the book was published.</param>
+        /// <param name="publishingYear">Year of book publishment.</param>
+        /// <param name="pagesAmount">Amount of pages in the book.</param>
+        /// <param name="price">Book's price.</param>
         public Book(string title, string author = "", long isbn = 0, string publishingHouse = "",
                     int publishingYear = 0, int pagesAmount = 0, decimal price = 0)
         {
@@ -84,6 +118,11 @@ namespace BookLibrary
 
         #region Object overridden methods
 
+        /// <summary>
+        /// Checks equality with the <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="obj">Object to check equality.</param>
+        /// <returns>True, if all the parameters are equal. Otherwise, returns false.</returns>
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -104,6 +143,10 @@ namespace BookLibrary
             return Equals(obj as Book);
         }
 
+        /// <summary>
+        /// Returns hash code based on all the book parameters.
+        /// </summary>
+        /// <returns>Book's hash code.</returns>
         public override int GetHashCode()
         {
             const int HASH_INITIAL_SEED = 17;
@@ -126,6 +169,10 @@ namespace BookLibrary
             return hash;
         }
 
+        /// <summary>
+        /// Returns string representation of the book parameters.
+        /// </summary>
+        /// <returns>String representation.</returns>
         public override string ToString()
         {
             return $"Title: {Title}; Author: {Author}; Price: {Price}; ISBN: {ISBN}; " +
@@ -139,6 +186,12 @@ namespace BookLibrary
 
         #region IComparable
 
+        /// <summary>
+        /// Compares the book with the <paramref name="obj"/> based on title.
+        /// </summary>
+        /// <param name="obj">Object to compare to.</param>
+        /// <returns>-1 if the title is lexicographically less, 0 if equal, 1 if greater.
+        /// Also, returns 1 if the <paramref name="obj"/> is null.</returns>
         public int CompareTo(object obj)
         {
             if (obj == null)
@@ -153,6 +206,12 @@ namespace BookLibrary
 
         #region IComparable<T>
 
+        /// <summary>
+        /// Compares the book with the <paramref name="other"/> based on title.
+        /// </summary>
+        /// <param name="other">Book to compare to.</param>
+        /// <returns>-1 if the title is lexicographically less, 0 if equal, 1 if greater.
+        /// Also, returns 1 if the <paramref name="other"/> is null.</returns>
         public int CompareTo(Book other)
         {
             if (ReferenceEquals(other, null))
@@ -165,8 +224,13 @@ namespace BookLibrary
 
         #endregion
 
-        #region IEquatable
+        #region IEquatable<T>
 
+        /// <summary>
+        /// Checks equality with the <paramref name="other"/> based on all the parameters.
+        /// </summary>
+        /// <param name="other">Book to be checked</param>
+        /// <returns>True if all the parameters are equal. Otherwise, returns false.</returns>
         public bool Equals(Book other)
         {
             if (ReferenceEquals(other, null))
@@ -196,6 +260,12 @@ namespace BookLibrary
 
         #region Overridden operators
 
+        /// <summary>
+        /// Checks equality of two books based on all the parameters.
+        /// </summary>
+        /// <param name="first">First book.</param>
+        /// <param name="second">Second book.</param>
+        /// <returns>True, if all the parameters are equal. Otherwise, returns false.</returns>
         public static bool operator ==(Book first, Book second)
         {
             if (ReferenceEquals(first, second))
@@ -211,6 +281,12 @@ namespace BookLibrary
             return first.Equals(second);
         }
 
+        /// <summary>
+        /// Checks equality of two books based on all the parameters.
+        /// </summary>
+        /// <param name="first">First book.</param>
+        /// <param name="second">Second book.</param>
+        /// <returns>False, if all the parameters are equal. Otherwise, returns true.</returns>
         public static bool operator !=(Book first, Book second)
         {
             return !(first == second);

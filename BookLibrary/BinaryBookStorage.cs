@@ -10,9 +10,6 @@ namespace BookLibrary
 
         private string filepath;
 
-        private BinaryReader reader;
-        private BinaryWriter writer;
-
         #endregion
 
         #region Ctors
@@ -23,7 +20,7 @@ namespace BookLibrary
         /// <param name="filepath">File to be read from/written to.</param>
         public BinaryBookStorage(string filepath)
         {
-            this.filepath = filepath ?? throw new ArgumentNullException($"{nameof(filepath)} cannot be null.");
+            this.filepath = string.Copy(filepath) ?? throw new ArgumentNullException($"{nameof(filepath)} cannot be null.");
         }
 
         #endregion
@@ -44,7 +41,7 @@ namespace BookLibrary
 
             var books = new List<Book>();
 
-            using (reader = new BinaryReader(File.Open(filepath, FileMode.Open)))
+            using (BinaryReader reader = new BinaryReader(File.Open(filepath, FileMode.Open)))
             {
                 while (reader.BaseStream.Position != reader.BaseStream.Length)
                 {
@@ -61,7 +58,7 @@ namespace BookLibrary
         /// <param name="books">Book enumeration to be written</param>
         public void Save(IEnumerable<Book> books)
         {
-            using (writer = new BinaryWriter(File.Open(filepath, FileMode.Create)))
+            using (BinaryWriter writer = new BinaryWriter(File.Open(filepath, FileMode.Create)))
             {
                 foreach (Book book in books)
                 {
