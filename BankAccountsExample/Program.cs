@@ -84,6 +84,7 @@ namespace BankAccountsExample
             storage.Save();
 
             Console.WriteLine("Removing all accounts from the list.");
+            storage.RemoveAll();
 
             Console.WriteLine("Loading accounts from storage.");
             storage.Load();

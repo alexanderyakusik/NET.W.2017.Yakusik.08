@@ -22,7 +22,7 @@
 
         }
 
-        private GoldBankAccount(int id, string firstName, string lastName,
+        public GoldBankAccount(int id, string firstName, string lastName,
             decimal balance, long bonusPoints, bool isClosed) : base(id, firstName, lastName, balance, bonusPoints, isClosed)
         {
 
