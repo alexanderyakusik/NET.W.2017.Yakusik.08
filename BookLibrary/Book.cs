@@ -38,7 +38,7 @@ namespace BookLibrary
             ISBN = isbn;
             PublishingHouse = publishingHouse ?? string.Empty;
             PublishingYear = publishingYear;
-            PagesAmount = PagesAmount;
+            PagesAmount = pagesAmount;
             Price = price;
         }
 
