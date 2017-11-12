@@ -1,16 +1,14 @@
-﻿using BankAccounts;
-using System;
+﻿using System;
+using BankAccounts;
 
 namespace BankAccountsExample
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             BankAccount first = new PlatinumBankAccount(1, "Alexander", "Yakusik");
             BankAccount second = new GoldBankAccount(2, "Daniil", "Gasyul");
-
-            #region BankAccount operations
 
             Console.WriteLine($"First account: {first}");
             Console.WriteLine($"\nSecond account: {second}");
@@ -60,10 +58,6 @@ namespace BankAccountsExample
                 Console.WriteLine("Couldn't replenish closed account.");
             }
 
-            #endregion
-
-            #region Storage operations
-
             IBankAccountStorage storage = new BinaryBankAccountStorage("storage.data");
 
             Console.WriteLine("\n\nAdding first account to the storage.");
@@ -94,8 +88,6 @@ namespace BankAccountsExample
             {
                 Console.WriteLine($"\n{account}");
             }
-
-            #endregion
 
             Console.ReadLine();
         }

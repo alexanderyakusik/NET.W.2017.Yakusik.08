@@ -4,8 +4,8 @@
     {
         #region Private fields
 
-        private static readonly int BALANCE_VALUE = 5;
-        private static readonly int REPLENISH_VALUE = 2;
+        private static readonly int DefaultBalanceValue = 5;
+        private static readonly int DefaultReplenishValue = 2;
 
         #endregion
 
@@ -19,13 +19,12 @@
         /// <param name="lastName">Last name of the account's owner.</param>
         public BaseBankAccount(int id, string firstName, string lastName) : base(id, firstName, lastName)
         {
-
         }
 
-        public BaseBankAccount(int id, string firstName, string lastName,
-            decimal balance, long bonusPoints, bool isClosed) : base(id, firstName, lastName, balance, bonusPoints, isClosed)
+        public BaseBankAccount(
+            int id, string firstName, string lastName, decimal balance, long bonusPoints, bool isClosed) : 
+            base(id, firstName, lastName, balance, bonusPoints, isClosed)
         {
-
         }
 
         #endregion
@@ -35,12 +34,12 @@
         /// <summary>
         /// Value of the balance. Depends on the account type.
         /// </summary>
-        public override int BalanceValue => BALANCE_VALUE;
+        public override int BalanceValue => DefaultBalanceValue;
 
         /// <summary>
         /// Value of the account replenishing. Depends on the account type.
         /// </summary>
-        public override int ReplenishValue => REPLENISH_VALUE;
+        public override int ReplenishValue => DefaultReplenishValue;
 
         #endregion
     }

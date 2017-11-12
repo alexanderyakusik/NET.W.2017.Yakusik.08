@@ -1,5 +1,5 @@
-﻿using BookLibrary;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using BookLibrary;
 
 namespace BookLibraryExample.Comparers
 {

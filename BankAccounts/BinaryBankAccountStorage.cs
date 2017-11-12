@@ -143,8 +143,9 @@ namespace BankAccounts
             long bonusPoints = reader.ReadInt64();
             bool isClosed = reader.ReadBoolean();
 
-            var account = (BankAccount)Activator.CreateInstance(Type.GetType(accountType),
-                new object[] { id, firstName, lastName, balance, bonusPoints, isClosed });
+            var account = (BankAccount)Activator.CreateInstance(
+                                                 Type.GetType(accountType), 
+                                                 new object[] { id, firstName, lastName, balance, bonusPoints, isClosed });
 
             return account;
         }

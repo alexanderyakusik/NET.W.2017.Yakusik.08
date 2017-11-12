@@ -12,6 +12,38 @@ namespace BookLibrary
 
         #endregion
 
+        #region Ctor
+
+        /// <summary>
+        /// Creates the book with the specified parameters.
+        /// </summary>
+        /// <param name="title">Title of the book.</param>
+        /// <param name="author">Book's author.</param>
+        /// <param name="isbn">International standard book number.</param>
+        /// <param name="publishingHouse">House where the book was published.</param>
+        /// <param name="publishingYear">Year of book publishment.</param>
+        /// <param name="pagesAmount">Amount of pages in the book.</param>
+        /// <param name="price">Book's price.</param>
+        public Book(
+            string title, 
+            string author = "", 
+            long isbn = 0, 
+            string publishingHouse = "",
+            int publishingYear = 0, 
+            int pagesAmount = 0,
+            decimal price = 0)
+        {
+            Title = title ?? string.Empty;
+            Author = author ?? string.Empty;
+            ISBN = isbn;
+            PublishingHouse = publishingHouse ?? string.Empty;
+            PublishingYear = publishingYear;
+            PagesAmount = PagesAmount;
+            Price = price;
+        }
+
+        #endregion
+
         #region Properties
 
         /// <summary>
@@ -30,7 +62,11 @@ namespace BookLibrary
         /// <exception cref="ArgumentOutOfRangeException">Value is less than zero.</exception>
         public long ISBN
         {
-            get { return _isbn; }
+            get
+            {
+                return _isbn;
+            }
+
             private set
             {
                 if (value < 0)
@@ -58,7 +94,11 @@ namespace BookLibrary
         /// <exception cref="ArgumentOutOfRangeException">Value is less than zero.</exception>
         public int PagesAmount
         {
-            get { return _pagesAmount; }
+            get
+            {
+                return _pagesAmount;
+            }
+
             private set
             {
                 if (value < 0)
@@ -76,7 +116,11 @@ namespace BookLibrary
         /// <exception cref="ArgumentOutOfRangeException">Value is less than zero.</exception>
         public decimal Price
         {
-            get { return _price; }
+            get
+            {
+                return _price;
+            }
+
             private set
             {
                 if (value < 0)
@@ -90,28 +134,38 @@ namespace BookLibrary
 
         #endregion
 
-        #region Ctor
+        #region Overridden operators
 
         /// <summary>
-        /// Creates the book with the specified parameters.
+        /// Checks equality of two books based on all the parameters.
         /// </summary>
-        /// <param name="title">Title of the book.</param>
-        /// <param name="author">Book's author.</param>
-        /// <param name="isbn">International standard book number.</param>
-        /// <param name="publishingHouse">House where the book was published.</param>
-        /// <param name="publishingYear">Year of book publishment.</param>
-        /// <param name="pagesAmount">Amount of pages in the book.</param>
-        /// <param name="price">Book's price.</param>
-        public Book(string title, string author = "", long isbn = 0, string publishingHouse = "",
-                    int publishingYear = 0, int pagesAmount = 0, decimal price = 0)
+        /// <param name="first">First book.</param>
+        /// <param name="second">Second book.</param>
+        /// <returns>True, if all the parameters are equal. Otherwise, returns false.</returns>
+        public static bool operator ==(Book first, Book second)
         {
-            Title = title ?? string.Empty;
-            Author = author ?? string.Empty;
-            ISBN = isbn;
-            PublishingHouse = publishingHouse ?? string.Empty;
-            PublishingYear = publishingYear;
-            PagesAmount = PagesAmount;
-            Price = price;
+            if (ReferenceEquals(first, second))
+            {
+                return true;
+            }
+
+            if (ReferenceEquals(first, null))
+            {
+                return false;
+            }
+
+            return first.Equals(second);
+        }
+
+        /// <summary>
+        /// Checks equality of two books based on all the parameters.
+        /// </summary>
+        /// <param name="first">First book.</param>
+        /// <param name="second">Second book.</param>
+        /// <returns>False, if all the parameters are equal. Otherwise, returns true.</returns>
+        public static bool operator !=(Book first, Book second)
+        {
+            return !(first == second);
         }
 
         #endregion
@@ -140,7 +194,7 @@ namespace BookLibrary
                 return false;
             }
 
-            return Equals(obj as Book);
+            return this.Equals(obj as Book);
         }
 
         /// <summary>
@@ -157,13 +211,13 @@ namespace BookLibrary
             unchecked
             {
                 hash = HASH_INITIAL_SEED;
-                hash = hash * HASH_ADDITIONAL_SEED + Title.GetHashCode();
-                hash = hash * HASH_ADDITIONAL_SEED + Author.GetHashCode();
-                hash = hash * HASH_ADDITIONAL_SEED + ISBN.GetHashCode();
-                hash = hash * HASH_ADDITIONAL_SEED + PublishingHouse.GetHashCode();
-                hash = hash * HASH_ADDITIONAL_SEED + PublishingYear.GetHashCode();
-                hash = hash * HASH_ADDITIONAL_SEED + Price.GetHashCode();
-                hash = hash * HASH_ADDITIONAL_SEED + PagesAmount.GetHashCode();
+                hash = (hash * HASH_ADDITIONAL_SEED) + Title.GetHashCode();
+                hash = (hash * HASH_ADDITIONAL_SEED) + Author.GetHashCode();
+                hash = (hash * HASH_ADDITIONAL_SEED) + ISBN.GetHashCode();
+                hash = (hash * HASH_ADDITIONAL_SEED) + PublishingHouse.GetHashCode();
+                hash = (hash * HASH_ADDITIONAL_SEED) + PublishingYear.GetHashCode();
+                hash = (hash * HASH_ADDITIONAL_SEED) + Price.GetHashCode();
+                hash = (hash * HASH_ADDITIONAL_SEED) + PagesAmount.GetHashCode();
             }
 
             return hash;
@@ -255,42 +309,6 @@ namespace BookLibrary
         }
 
         #endregion
-
-        #endregion
-
-        #region Overridden operators
-
-        /// <summary>
-        /// Checks equality of two books based on all the parameters.
-        /// </summary>
-        /// <param name="first">First book.</param>
-        /// <param name="second">Second book.</param>
-        /// <returns>True, if all the parameters are equal. Otherwise, returns false.</returns>
-        public static bool operator ==(Book first, Book second)
-        {
-            if (ReferenceEquals(first, second))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(first, null))
-            {
-                return false;
-            }
-
-            return first.Equals(second);
-        }
-
-        /// <summary>
-        /// Checks equality of two books based on all the parameters.
-        /// </summary>
-        /// <param name="first">First book.</param>
-        /// <param name="second">Second book.</param>
-        /// <returns>False, if all the parameters are equal. Otherwise, returns true.</returns>
-        public static bool operator !=(Book first, Book second)
-        {
-            return !(first == second);
-        }
 
         #endregion
     }

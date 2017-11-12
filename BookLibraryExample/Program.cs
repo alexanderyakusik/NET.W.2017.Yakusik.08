@@ -1,19 +1,17 @@
-﻿using BookLibrary;
+﻿using System;
+using BookLibrary;
 using BookLibraryExample.Comparers;
 using BookLibraryExample.Predicates;
-using System;
 
 namespace BookLibraryExample
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             var first = new Book("Nice Book");
             var second = new Book("A Very Nice Book");
             var secondEqual = new Book("A Very Nice Book");
-
-            #region Book operations
 
             Console.WriteLine($"First book: {first}");
             Console.WriteLine($"Second book: {second}");
@@ -27,13 +25,7 @@ namespace BookLibraryExample
             Console.WriteLine($"First book is greater than second book: {first.CompareTo(second) == 1}");
             Console.WriteLine($"Second book is in the same position as third: {second.CompareTo(secondEqual) == 0}");
 
-            #endregion
-
-            #region BookListService operations
-
-            IBookService bookService = new BookListService();
-
-            #region Without storage
+            IBookService bookService = new BookListService();           
 
             Console.WriteLine($"\nAdding first book");
             bookService.AddBook(first);
@@ -70,10 +62,6 @@ namespace BookLibraryExample
             var niceBook = bookService.FindBookByTag(new TitleContainsNicePredicate());
             Console.WriteLine($"Book which title contains word 'Nice': {niceBook}");
 
-            #endregion
-
-            #region With storage
-
             IBookStorage bookStorage = new BinaryBookStorage("storage.data");
 
             Console.WriteLine($"\nBooks in list before storaging:");
@@ -81,6 +69,7 @@ namespace BookLibraryExample
             {
                 Console.WriteLine(book);
             }
+
             bookService.SaveBooksToStorage(bookStorage);
 
             bookService.RemoveAllBooks();
@@ -94,10 +83,6 @@ namespace BookLibraryExample
             {
                 Console.WriteLine(book);
             }
-
-            #endregion
-
-            #endregion
 
             Console.ReadLine();
         }
