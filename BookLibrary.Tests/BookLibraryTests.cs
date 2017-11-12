@@ -16,7 +16,7 @@ namespace BookLibrary.UnitTests
         [Test, TestCaseSource(typeof(BookLibraryTestsData), "ToStringCustomFormatterTestCases")]
         public string ToString_CustomFormatterPassed_WorksCorrectly(Book book, string formatString, IFormatProvider provider)
         {
-            return book.ToString(formatString, provider);
+            return string.Format(provider, "{0:" + formatString + "}", book);
         }
 
         private class BookLibraryTestsData
@@ -55,12 +55,16 @@ namespace BookLibrary.UnitTests
                 get
                 {
                     yield return new TestCaseData(
-                        new Book("CLR via C#", "Jeffrey Richter", "978-0-7356-6745-7", "Microsoft Press", 2012, 826, 59.99M),
-                        "S", new BookFormatter()).Returns(
+                        new Book(
+                            "CLR via C#", "Jeffrey Richter", "978-0-7356-6745-7", "Microsoft Press", 2012, 826, 59.99M),
+                            "S", 
+                            new BookFormatter()).Returns(
                         "Jeffrey Richter, CLR via C#, 59,99.");
                     yield return new TestCaseData(
-                        new Book("CLR via C#", "Jeffrey Richter", "978-0-7356-6745-7", "Microsoft Press", 2012, 826, 59.99M),
-                        "E", new BookFormatter()).Returns(
+                        new Book(
+                            "CLR via C#", "Jeffrey Richter", "978-0-7356-6745-7", "Microsoft Press", 2012, 826, 59.99M),
+                            "E",
+                            new BookFormatter()).Returns(
                         "ISBN: 978-0-7356-6745-7, Jeffrey Richter, CLR via C#, 59,99.");
                 }
             }
