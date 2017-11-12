@@ -72,7 +72,7 @@ namespace BookLibraryExample
 
             bookService.SaveBooksToStorage(bookStorage);
 
-            bookService.RemoveAllBooks();
+            bookService = new BookListService();
             Console.WriteLine($"\nRemoved all books from list.");
 
             bookService.LoadBooksFromStorage(bookStorage);

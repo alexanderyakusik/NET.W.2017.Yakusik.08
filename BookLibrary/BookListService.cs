@@ -20,6 +20,7 @@ namespace BookLibrary
         /// </summary>
         /// <param name="book">Book to be added.</param>
         /// <exception cref="ArgumentException">Book already exists in the list.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="book"/> is null.</exception>
         public void AddBook(Book book)
         {
             ValidateNullBook(book);
@@ -37,8 +38,11 @@ namespace BookLibrary
         /// </summary>
         /// <param name="predicate">Specified predicate to search book.</param>
         /// <returns>First book that matches the <paramref name="predicate"/>. Otherwise, returns null.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="predicate"/> is null.</exception>
         public Book FindBookByTag(IPredicate<Book> predicate)
         {
+            predicate = predicate ?? throw new ArgumentNullException($"{nameof(predicate)} cannot be null.");
+            
             foreach (Book book in books)
             {
                 if (predicate.IsTrue(book))
@@ -63,8 +67,11 @@ namespace BookLibrary
         /// Loads all the books from the <paramref name="storage"/> that are not currently in the list.
         /// </summary>
         /// <param name="storage">Storage to be loaded from</param>
+        /// <exception cref="ArgumentNullException"><paramref name="storage"/> is null.</exception>
         public void LoadBooksFromStorage(IBookStorage storage)
         {
+            storage = storage ?? throw new ArgumentNullException($"{nameof(storage)} cannot be null.");
+
             foreach (Book book in storage.Load())
             {
                 if (!books.Contains(book))
@@ -79,6 +86,7 @@ namespace BookLibrary
         /// </summary>
         /// <param name="book">Book to be deleted.</param>
         /// <exception cref="ArgumentException">No such book found in the list.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="book"/> is null.</exception>
         public void RemoveBook(Book book)
         {
             ValidateNullBook(book);
@@ -92,19 +100,14 @@ namespace BookLibrary
         }
 
         /// <summary>
-        /// Removes all the books from the list.
-        /// </summary>
-        public void RemoveAllBooks()
-        {
-            books.Clear();
-        }
-
-        /// <summary>
         /// Saves all the books from the list to the <paramref name="storage"/>.
         /// </summary>
         /// <param name="storage">Storage to be written to.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="storage"/> is null.</exception>
         public void SaveBooksToStorage(IBookStorage storage)
         {
+            storage = storage ?? throw new ArgumentNullException($"{nameof(storage)} cannot be null.");
+
             storage.Save(GetBooks());
         }
 
@@ -112,8 +115,11 @@ namespace BookLibrary
         /// Sorts the list of books using <paramref name="comparer"/>.
         /// </summary>
         /// <param name="comparer">Instance to compare two books.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is null.</exception>
         public void SortBooksByTag(IComparer<Book> comparer)
         {
+            comparer = comparer ?? throw new ArgumentNullException($"{nameof(comparer)} cannot be null.");
+
             books.Sort(comparer);
         }
 

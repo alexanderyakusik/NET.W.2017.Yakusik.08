@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Globalization;
 
 namespace BookLibrary
 {
-    public class Book : IComparable<Book>, IComparable, IEquatable<Book>
+    public class Book : IComparable<Book>, IComparable, IEquatable<Book>, IFormattable
     {
         #region Private fields
 
-        private long _isbn;
         private int _pagesAmount;
         private decimal _price;
 
@@ -27,7 +27,7 @@ namespace BookLibrary
         public Book(
             string title, 
             string author = "", 
-            long isbn = 0, 
+            string isbn = "", 
             string publishingHouse = "",
             int publishingYear = 0, 
             int pagesAmount = 0,
@@ -60,23 +60,7 @@ namespace BookLibrary
         /// International standard book number.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">Value is less than zero.</exception>
-        public long ISBN
-        {
-            get
-            {
-                return _isbn;
-            }
-
-            private set
-            {
-                if (value < 0)
-                {
-                    throw new ArgumentOutOfRangeException($"{nameof(ISBN)} cannot be less than zero.");
-                }
-
-                _isbn = value;
-            }
-        }
+        public string ISBN { get; private set; }
 
         /// <summary>
         /// House where the book was published.
@@ -229,9 +213,21 @@ namespace BookLibrary
         /// <returns>String representation.</returns>
         public override string ToString()
         {
-            return $"Title: {Title}; Author: {Author}; Price: {Price}; ISBN: {ISBN}; " +
-                   $"Publishing house: {PublishingHouse}; Publishing year: {PublishingYear}; " +
-                   $"Amount of pages: {PagesAmount};";
+            return ToString("G", CultureInfo.CurrentCulture);
+        }
+
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Returns string representation of the book parameters based on the <paramref name="format"/>.
+        /// </summary>
+        /// <param name="format">Specified string formatting.</param>
+        /// <returns>Formatted string representation.</returns>
+        public string ToString(string format)
+        {
+            return ToString(format, CultureInfo.CurrentCulture);
         }
 
         #endregion
@@ -306,6 +302,62 @@ namespace BookLibrary
                           PublishingHouse == other.PublishingHouse;
 
             return result;
+        }
+
+        #endregion
+
+        #region IFormattable
+
+        /// <summary>
+        /// Returns string representation of the book parameters based on <paramref name="format"/> and <paramref name="formatProvider"/>.
+        /// </summary>
+        /// <param name="format">Specified string formatting.</param>
+        /// <param name="formatProvider">Culture format provider.</param>
+        /// <returns>Formatted string representation.</returns>
+        public string ToString(string format, IFormatProvider formatProvider)
+        {
+            if (string.IsNullOrEmpty(format))
+            {
+                format = "G";
+            }
+
+            format = format.Trim().ToUpperInvariant();
+            formatProvider = formatProvider ?? CultureInfo.CurrentCulture;
+
+            switch (format)
+            {
+                case "S":
+                    return $"{Author.ToString(formatProvider)}, " +
+                           $"{Title.ToString(formatProvider)}";
+                case "C":
+                    return $"{Author.ToString(formatProvider)}, " +
+                           $"{Title.ToString(formatProvider)}, " +
+                           $"\"{PublishingHouse.ToString(formatProvider)}\", " +
+                           $"{PublishingYear.ToString(formatProvider)}";
+                case "O":
+                    return $"ISBN: {ISBN.ToString(formatProvider)}, " +
+                           $"{Author.ToString(formatProvider)}, " +
+                           $"{Title.ToString(formatProvider)}, " +
+                           $"\"{PublishingHouse.ToString(formatProvider)}\", " +
+                           $"{PublishingYear.ToString(formatProvider)}, " +
+                           $"P. {PagesAmount.ToString(formatProvider)}.";
+                case "F":
+                    return $"ISBN: {ISBN.ToString(formatProvider)}, " +
+                           $"{Author.ToString(formatProvider)}, " +
+                           $"{Title.ToString(formatProvider)}, " +
+                           $"\"{PublishingHouse.ToString(formatProvider)}\", " +
+                           $"{PublishingYear.ToString(formatProvider)}, " +
+                           $"P. {PagesAmount.ToString(formatProvider)}., " +
+                           $"{Price.ToString(formatProvider)}.";
+                default:
+                    return $"Title: {Title.ToString(formatProvider)}; " +
+                           $"Author: {Author.ToString(formatProvider)}; " +
+                           $"Price: {Price.ToString(formatProvider)}; " +
+                           $"ISBN: {ISBN.ToString(formatProvider)}; " +
+                           $"Publishing house: {PublishingHouse.ToString(formatProvider)}; " +
+                           $"Publishing year: {PublishingYear.ToString(formatProvider)}; " +
+                           $"Amount of pages: {PagesAmount.ToString(formatProvider)};";
+            }
         }
 
         #endregion

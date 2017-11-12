@@ -88,7 +88,7 @@ namespace BookLibrary
             string author = reader.ReadString();
             decimal price = reader.ReadDecimal();
             int pagesAmount = reader.ReadInt32();
-            long isbn = reader.ReadInt64();
+            string isbn = reader.ReadString();
             string publishingHouse = reader.ReadString();
             int publishingYear = reader.ReadInt32();
 

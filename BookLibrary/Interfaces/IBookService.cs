@@ -14,8 +14,6 @@ namespace BookLibrary
 
         void SortBooksByTag(IComparer<Book> comparer);
 
-        void RemoveAllBooks();
-
         void LoadBooksFromStorage(IBookStorage storage);
 
         void SaveBooksToStorage(IBookStorage storage);
