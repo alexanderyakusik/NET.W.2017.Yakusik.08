@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Globalization;
+using BookLibrary.Loggers;
+using BookLibrary.Loggers.Adapters;
 
 namespace BookLibrary
 {
     public class Book : IComparable<Book>, IComparable, IEquatable<Book>, IFormattable
     {
         #region Private fields
+
+        private static readonly ILogger logger = new NLogAdapter(nameof(Book));
 
         private int _pagesAmount;
         private decimal _price;
@@ -40,6 +44,8 @@ namespace BookLibrary
             PublishingYear = publishingYear;
             PagesAmount = pagesAmount;
             Price = price;
+
+            logger.Info($"Created book instance: {this}.");
         }
 
         #endregion

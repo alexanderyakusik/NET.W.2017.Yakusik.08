@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using BookLibrary.Loggers;
+using BookLibrary.Loggers.Adapters;
 
 namespace BookLibrary
 {
     public class BookListService : IBookService
     {
         #region Private fields
+
+        private static readonly ILogger logger = new NLogAdapter(nameof(BookListService));
 
         private List<Book> books = new List<Book>();
 
@@ -27,10 +31,12 @@ namespace BookLibrary
 
             if (books.Contains(book))
             {
+                logger.Info($"Tried to add {book} that was already in the list.");
                 throw new ArgumentException($"{nameof(book)} already exists in the list.");
             }
 
             books.Add(book);
+            logger.Info($"Successfully added {book} to the list.");
         }
 
         /// <summary>
@@ -47,10 +53,12 @@ namespace BookLibrary
             {
                 if (predicate.IsTrue(book))
                 {
+                    logger.Info($"Found book {book} by tag.");
                     return book;
                 }
             }
 
+            logger.Info($"Couldn't find book by tag.");
             return null;
         }
 
@@ -60,6 +68,7 @@ namespace BookLibrary
         /// <returns>Book enumeration from the list.</returns>
         public IEnumerable<Book> GetBooks()
         {
+            logger.Info($"Returning list of books.");
             return books;
         }
 
@@ -79,6 +88,8 @@ namespace BookLibrary
                     books.Add(book);
                 }
             }
+
+            logger.Info($"Loaded books from the storage.");
         }
 
         /// <summary>
@@ -93,10 +104,13 @@ namespace BookLibrary
 
             if (!books.Contains(book))
             {
+                logger.Info($"Tried to delete {book} that didn't exist in the list.");
                 throw new ArgumentException($"{nameof(book)} doesn't exist in the list.");
             }
 
             books.Remove(book);
+
+            logger.Info($"Successfully deleted {book} from the list.");
         }
 
         /// <summary>
@@ -109,6 +123,7 @@ namespace BookLibrary
             storage = storage ?? throw new ArgumentNullException($"{nameof(storage)} cannot be null.");
 
             storage.Save(GetBooks());
+            logger.Info("Saved the book list to the storage.");
         }
 
         /// <summary>
@@ -121,6 +136,7 @@ namespace BookLibrary
             comparer = comparer ?? throw new ArgumentNullException($"{nameof(comparer)} cannot be null.");
 
             books.Sort(comparer);
+            logger.Info($"Sorted the book list using comparer.");
         }
 
         #endregion

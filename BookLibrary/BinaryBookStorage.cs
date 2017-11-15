@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using BookLibrary.Loggers;
+using BookLibrary.Loggers.Adapters;
 
 namespace BookLibrary
 {
     public class BinaryBookStorage : IBookStorage
     {
         #region Private fields
+
+        private static readonly ILogger logger = new NLogAdapter(nameof(BinaryBookStorage));
 
         private string filepath;
 
@@ -36,6 +40,7 @@ namespace BookLibrary
         {
             if (!File.Exists(filepath))
             {
+                logger.Info($"Tried to open file by {filepath}. No file found.");
                 throw new ArgumentException($"Specified {nameof(filepath)} is not valid.");
             }
 
@@ -49,6 +54,7 @@ namespace BookLibrary
                 }
             }
 
+            logger.Info($"Loaded books from the file by {filepath}.");
             return books;
         }
 
@@ -65,6 +71,8 @@ namespace BookLibrary
                     WriteBook(writer, book);
                 }
             }
+
+            logger.Info($"Written the list of books in the file by {filepath}");
         }
 
         #endregion
